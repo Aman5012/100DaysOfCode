@@ -1,0 +1,69 @@
+3. Longest Substring Without Repeating Characters
+
+
+//QUESTION LNK: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+
+TOPIC: Hash Table, String, Sliding Window
+
+
+CODE:
+
+
+/////////////////////////////////   brute force ////////////////////////////////
+Time Complexity: O(n^2)
+Space Complexity: O(n)
+
+
+// class Solution {
+// public:
+//     int lengthOfLongestSubstring(string s) {
+//         int maxLen = 0;
+//         int n= s.size();
+//         for(int i=0; i<n; i++){
+//             unordered_set<char> seen;
+//             for(int j=i; j<n; j++){
+//                 if(seen.count(s[j])){ // this return 1 if char is already present in the set
+//                     break;
+//                 }
+//                 seen.insert(s[j]);
+//                 maxLen= max(maxLen, j-i+1);
+//             }
+//         }
+//         return maxLen;
+//     }
+// };
+
+
+
+////////////////////////////////////////    optimal solution //////////
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+    unordered_map<char, int> charIndexMap;
+    int left = 0;
+    int maxLength = 0;
+    
+    for (int right = 0; right < s.length(); right++) {
+        
+        // If the character is already in the map and within the current window
+        if (charIndexMap.count(s[right]) && charIndexMap[s[right]] >= left) {
+            // Move the left pointer to the right of the last occurrence of currentChar
+            left = charIndexMap[s[right]] + 1;
+        }
+        
+        // Update the character's last seen index
+        charIndexMap[s[right]] = right;
+        
+        // Calculate the length of the current substring without repeating characters
+        maxLength = max(maxLength, right - left + 1);
+    }
+    return maxLength;
+    }   
+};
+
+
+
