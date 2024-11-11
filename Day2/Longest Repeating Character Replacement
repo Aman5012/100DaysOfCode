@@ -1,0 +1,43 @@
+424. Longest Repeating Character Replacement
+
+
+//QUESTION LNK: https://leetcode.com/problems/longest-repeating-character-replacement/description/
+
+TOPIC: two pointers, Sliding Window
+
+
+
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+CODE:
+
+
+
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+
+        /////////////////////// optimal solution ///////////////////
+        // TC= O(n)
+        // SC=O(n)
+        int n= s.size();
+        int maxFreq=0;
+        int maxlen=0;
+        vector<int> freq(26,0);// vector arr for each char
+        int left =0;;
+        for(int right=0; right<n; right++){
+            freq[s[right]- 'A']++; // give the count of each char
+            maxFreq=max(maxFreq, freq[s[right]- 'A']);
+
+            if((right-left+1)-maxFreq >k){
+                freq[s[left]-'A']--;
+                left++;
+            }
+            maxlen= max(maxFreq, right-left+1);
+        }
+        return maxlen;
+    }
+};
