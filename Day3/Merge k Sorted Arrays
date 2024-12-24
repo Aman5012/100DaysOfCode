@@ -1,1 +1,53 @@
+//QUESTION LNK: https://www.geeksforgeeks.org/problems/merge-k-sorted-arrays/1
 
+TOPIC: Heap
+
+
+Time Complexity: O(n log(k))
+Space Complexity: O(k)
+
+code:
+
+class Node {
+public:
+    int value, row, col;
+    Node(int v, int r, int c) : value(v), row(r), col(c) {}
+};
+
+class Compare {
+public:
+    bool operator()(Node& a, Node& b) {
+        return a.value > b.value;
+    }
+};
+
+class Solution {
+public:
+    // Function to merge k sorted arrays
+    vector<int> mergeKArrays(vector<vector<int>>& arr, int K) {
+        priority_queue<Node, vector<Node>, Compare> minHeap;
+        vector<int> result;
+        
+        // Insert the first element of each array into the min heap
+        for (int i = 0; i < K; ++i) {
+            if (!arr[i].empty()) {
+                minHeap.push(Node(arr[i][0], i, 0)); // value, array index, element index
+            }
+        }
+
+        // Extract the min element and insert the next element from the same array
+        while (!minHeap.empty()) {
+            Node top = minHeap.top();
+            minHeap.pop();
+            result.push_back(top.value);
+
+            int nextCol = top.col + 1;
+            if (nextCol < arr[top.row].size()) {
+                // Insert the next element from the same array
+                minHeap.push(Node(arr[top.row][nextCol], top.row, nextCol));
+            }
+        }
+
+        return result;
+    }
+};
