@@ -34,5 +34,44 @@ public:
             current = current ->next;
         } 
         return dummy->next;
+
+
+////////////////// optimal solution /////////////////////////
+TC= O(n log k)
+Space Complexity: O(n)
+
+
+ // Min-heap to store ListNode pointers, ordered by their values
+        auto compare = [](ListNode* a, ListNode* b) { return a->val > b->val; };
+        priority_queue<ListNode*, vector<ListNode*>, decltype(compare)> minHeap(compare);
+
+        for(ListNode* list: lists){
+            if (list != nullptr) {
+                minHeap.push(list);
+            }
+        }
+
+        ListNode* dummy= new ListNode(0);
+        ListNode* current = dummy;
+
+                // Process the heap
+        while (!minHeap.empty()) {
+            // Extract the node with the smallest value
+            ListNode* node = minHeap.top();
+            minHeap.pop();
+
+            // Append it to the merged list
+            current->next = node;
+            current = current->next;
+
+            // If there is a next node in the list, push it into the heap
+            if (node->next != nullptr) {
+                minHeap.push(node->next);
+            }
+        }
+
+        return dummy-> next;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
     }
 };
