@@ -1,0 +1,38 @@
+23. Merge k Sorted Lists
+
+https://leetcode.com/problems/merge-k-sorted-lists/description/
+
+//QUESTION LNK: https://leetcode.com/problems/merge-k-sorted-lists/description/
+
+TOPIC:Linked List, Divide and Conquer, Heap (Priority Queue),  Merge Sort
+
+/////////////////////////////////////    brute force //////////////////////////////////
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+
+code:
+
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // create a vector arrr to store all the values of the lists
+        vector<int> values;
+        // insert all the value in the vector
+        for(auto list : lists){
+            while(list!= nullptr){
+                values.push_back(list->val);
+                list= list->next;
+            }
+        }
+        sort(values.begin(), values.end());
+        // create a new linkedlist and insert into it
+        ListNode* dummy= new ListNode(0);
+        ListNode* current= dummy;
+
+        for(auto value: values){
+            current -> next= new ListNode(value);
+            current = current ->next;
+        } 
+        return dummy->next;
+    }
+};
