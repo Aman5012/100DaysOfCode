@@ -1,0 +1,44 @@
+494. Target Sum
+
+//QUESTION LNK: https://leetcode.com/problems/target-sum/description/
+
+TOPIC:Array, Dynamic Programming, Backtracking
+
+
+Time Complexity: O(n log(k))
+Space Complexity: O(k)
+
+Code:
+
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+
+        ///////////////////////   DP   ////////////////////
+        int totalSum = 0;
+        for (int num : nums) {
+            totalSum += num;
+        }
+
+        // Check if the problem is solvable
+        if ((totalSum + target) % 2 != 0 || totalSum < abs(target)) {
+            return 0;
+        }
+
+        int subsetSum = (totalSum + target) / 2;
+
+        // Initialize dp array
+        vector<int> dp(subsetSum + 1, 0);
+        dp[0] = 1; // There is 1 way to make sum 0: by selecting no elements
+
+        // Process each number in the array
+        for (int num : nums) {
+            for (int j = subsetSum; j >= num; --j) {
+                dp[j] += dp[j - num];
+            }
+        }
+
+        return dp[subsetSum];
+        
+    }
+};
