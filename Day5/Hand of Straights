@@ -1,0 +1,34 @@
+//QUESTION LNK: https://leetcode.com/problems/hand-of-straights/
+
+TOPIC: Heap
+
+
+Time Complexity: O(n log(n))
+Space Complexity: O(u), u- no. of uniique carsd
+
+code:
+
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        if (hand.size() % groupSize != 0) return false; // Not divisible
+        
+        map<int, int> freq;
+        for (int card : hand) {
+            freq[card]++;
+        }
+        
+        for (auto [card, count] : freq) {
+            if (count > 0) {
+                for (int i = 0; i < groupSize; i++) {
+                    if (freq[card + i] < count) {
+                        return false; // Not enough cards to form a group
+                    }
+                    freq[card + i] -= count;
+                }
+            }
+        }
+        
+        return true;
+    }
+};
