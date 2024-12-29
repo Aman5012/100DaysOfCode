@@ -1,0 +1,53 @@
+355. Design Twitter
+
+  question link: https://leetcode.com/problems/design-twitter/description/
+topics: Hash Table, Linked List, Design Heap (Priority Queue)
+
+  code: 
+
+class Twitter {
+private:
+    int time;
+    unordered_map<int , vector<pair<int, int>>> tweets;
+    unordered_map<int, unordered_set<int>> followers;
+
+
+public:
+    Twitter(): time(0) {}
+    
+    void postTweet(int userId, int tweetId) {
+        tweets[userId].emplace_back(time++, tweetId);
+    }
+    
+    vector<int> getNewsFeed(int userId) {
+        priority_queue<pair<int, int>> maxHeap;/// (time, tweetId)
+
+        // add user's own tweets
+        for(const auto& tweets: tweets[userId]){
+            maxHeap.push(tweets);
+        }
+
+        // add tweets from followed user to the heap
+        for(int followeeId: followers[userId]){
+            for (const auto& tweet : tweets[followeeId]) {
+                maxHeap.push(tweet);
+            }
+        }
+         vector<int> result;
+        while (!maxHeap.empty() && result.size() < 10) {
+            result.push_back(maxHeap.top().second); // Add tweetId
+            maxHeap.pop();
+        }
+        return result;
+    }
+    
+    void follow(int followerId, int followeeId) {
+        if(followerId != followeeId){
+            followers[followerId].insert(followeeId);
+        }
+    }
+    
+    void unfollow(int followerId, int followeeId) {
+        followers[followerId].erase(followeeId);
+    }
+};
