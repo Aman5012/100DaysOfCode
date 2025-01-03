@@ -1,0 +1,43 @@
+983. Minimum Cost For Tickets
+
+Ques Link: https://leetcode.com/problems/minimum-cost-for-tickets/description/
+
+time complexcity: O(1)
+SC : O(1)
+
+code:
+
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+         int n = days.size();
+        int maxDay = days[n - 1]; // Last travel day
+        int minDay = days[0];     // First travel day
+        
+        // DP array to store the minimum cost for each day
+        vector<int> dp(maxDay + 1, 0);
+        
+        int travelIdx = 0; // Index for tracking travel days
+        
+        for (int day = minDay; day <= maxDay; ++day) {
+            if (day != days[travelIdx]) {
+                // If not a travel day, cost remains the same as the previous day
+                dp[day] = dp[day - 1];
+            } else {
+                // Calculate costs for 1-day, 7-day, and 30-day passes
+                int cost1 = dp[max(0, day - 1)] + costs[0];
+                int cost7 = dp[max(0, day - 7)] + costs[1];
+                int cost30 = dp[max(0, day - 30)] + costs[2];
+                
+                // Take the minimum of the three costs
+                dp[day] = min({cost1, cost7, cost30});
+                
+                // Move to the next travel day
+                travelIdx++;
+            }
+        }
+        
+        // Return the minimum cost for the last travel day
+        return dp[maxDay];
+    }
+};
