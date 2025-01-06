@@ -1,0 +1,95 @@
+1930. Unique Length-3 Palindromic Subsequences
+
+Ques Link: https://leetcode.com/problems/unique-length-3-palindromic-subsequences/description/?envType=daily-question&envId=2025-01-04
+
+Topics:
+Hash Table
+String
+Bit Manipulation
+Prefix Sum
+
+code:
+
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+
+///////////////////////////////////////////////  optimal solution /////////////
+
+//  TC: O(n)
+//  SC: O(n)
+
+         int n = s.size();
+        vector<int> first(26, -1), last(26, -1);
+
+        // Record the first and last occurrence of each character
+        for (int i = 0; i < n; i++) {
+            if (first[s[i] - 'a'] == -1) {
+                first[s[i] - 'a'] = i;
+            }
+            last[s[i] - 'a'] = i;
+        }
+
+        int result = 0;
+
+        // Check for unique length-3 palindromic subsequences
+        for (int mid = 0; mid < 26; mid++) {
+            if (first[mid] == -1 || last[mid] == -1 || first[mid] == last[mid]) {
+                continue; // Character doesn't form any palindromes
+            }
+
+            unordered_set<char> uniqueChars;
+
+            // Collect unique characters between the first and last occurrence of 'mid'
+            for (int i = first[mid] + 1; i < last[mid]; i++) {
+                uniqueChars.insert(s[i]);
+            }
+
+            // Add the count of unique characters
+            result += uniqueChars.size();
+        }
+
+        return result;
+
+
+///////////////////////////////////     good approach //////////////////////////////
+        // int n= s.size();
+        // vector<unordered_set<char>> prefix(n), suffix(n);
+        // // build prefix set
+        // for(int i=1; i<n; i++){
+        //     prefix[i]= prefix[i-1];
+        //     prefix[i].insert(s[i-1]);
+        // }
+        // // bould suffix set
+        // for(int i= n-2; i>=0; i--){
+        //     suffix[i]= suffix[i+1];
+        //     suffix[i].insert(s[i + 1]);
+        // }
+
+        // // Check for unique length-3 palindromic subsequences
+        // unordered_set<string> uniquePalindromes;
+        // for (int i = 1; i < n - 1; i++) { // 'i' is the middle character
+        //     for (char ch : prefix[i]) {
+        //         if (suffix[i].count(ch)) {
+        //             uniquePalindromes.insert(string() + ch + s[i] + ch);
+        //         }
+        //     }
+        // }
+        // return uniquePalindromes.size();
+
+
+//////////////////////////////  brute force  ////////////
+
+        // int n= s.size();
+        //  unordered_set<string> ans;
+
+        //  for(int i=0; i<n; i++){
+        //     for(int j=i+1; j<n; j++){
+        //        for(int k=j+1; k<n; k++){
+        //         if(s[i]== s[k]) ans.insert(s.substr(i, 1) + s[j] + s[k]);
+        //        } 
+        //     }
+        //  }
+        //  return ans.size();
+    }
+};
