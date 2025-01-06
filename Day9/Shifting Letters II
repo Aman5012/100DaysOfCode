@@ -1,0 +1,39 @@
+2381. Shifting Letters II
+
+Question Link: https://leetcode.com/problems/shifting-letters-ii/description/?envType=daily-question&envId=2025-01-05
+Topics: Array, String, Prefix Sum
+
+TC: O(n)
+SC:O(n)
+
+code:
+
+class Solution {
+public:
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+         int n = s.size();
+         vector<int> delta(n+1, 0);
+
+         for(const auto& shift: shifts){
+            int start = shift[0], end = shift[1], direction= shift[2];
+            if(direction ==1){
+                delta[start] +=1;
+                delta[end+1] -=1; 
+            }
+            if(direction ==0){
+                delta[start] -=1;
+                delta[end+1] +=1; 
+            }
+         }
+
+         // compute the prefixSum 
+         int netShift=0;
+         for(int i=0; i<n; i++){
+            netShift += delta[i];
+            // Apply the net shift to the current character
+            int shiftValue = (netShift % 26 + 26) % 26; // Handle negative shifts
+            s[i] = 'a' + (s[i] - 'a' + shiftValue) % 26;
+         }
+         return s;
+    }
+};
