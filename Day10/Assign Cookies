@@ -2,7 +2,7 @@
 
 //QUESTION LINK: https://leetcode.com/problems/assign-cookies/description/
 
-TOPIC:
+TOPIC: Array, Two Pointers, Greedy, Sorting
 
 TC: O(nlogn + mlogm)
 SC: O(1)
