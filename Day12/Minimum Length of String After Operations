@@ -1,0 +1,32 @@
+3223. Minimum Length of String After Operations
+
+question link: https://leetcode.com/problems/minimum-length-of-string-after-operations/description/?envType=daily-question&envId=2025-01-13
+
+topics: Hash Table, String, Counting
+TC: O(n)
+SC: (1)
+
+code: class Solution {
+public:
+    int minimumLength(string s) {
+        unordered_map<char, int> charFreq;
+
+        for(char c: s ){
+            charFreq[c]++;
+        }
+        // count the char to delete
+        int deleteCount=0;
+        for(auto& pair : charFreq){
+            int freq = pair.second;
+            if(freq % 2==1){
+                // when char freq is odd
+                deleteCount += freq - 1; 
+            }
+            else{
+                // when char freq is even
+                deleteCount += freq - 2;
+            }
+        }
+        return s.size() - deleteCount;
+    }
+};
