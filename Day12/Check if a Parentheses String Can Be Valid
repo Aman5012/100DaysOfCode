@@ -1,0 +1,48 @@
+2116. Check if a Parentheses String Can Be Valid
+
+question link: https://leetcode.com/problems/check-if-a-parentheses-string-can-be-valid/description/?envType=daily-question&envId=2025-01-12
+
+topics: String, Stack, Greedy
+TC: O(n+m)
+SC: (L)  length of the result string
+
+code:
+
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        int n = s.size();
+        
+        // A valid parentheses string must have even length
+        if (n % 2 != 0) return false;
+
+        // Left-to-right pass
+        int openBalance = 0, changeable = 0;
+        for (int i = 0; i < n; i++) {
+            if (locked[i] == '1') {
+                openBalance += (s[i] == '(' ? 1 : -1);
+            } else {
+                changeable++;
+            }
+
+            // If balance goes negative and we can't fix it, return false
+            if (openBalance + changeable < 0) return false;
+        }
+
+        // Right-to-left pass
+        int closeBalance = 0;
+        changeable = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if (locked[i] == '1') {
+                closeBalance += (s[i] == ')' ? 1 : -1);
+            } else {
+                changeable++;
+            }
+
+            // If balance goes negative and we can't fix it, return false
+            if (closeBalance + changeable < 0) return false;
+        }
+
+        return true;
+    }
+};
