@@ -1,0 +1,33 @@
+2657. Find the Prefix Common Array of Two Arrays
+
+  question link: https://leetcode.com/problems/find-the-prefix-common-array-of-two-arrays/description/?envType=daily-question&envId=2025-01-14
+
+topics: Array, Hash Table, Bit Manipulation
+TC: O(n)
+SC: (n)
+
+code:
+
+class Solution {
+public:
+    vector<int> findThePrefixCommonArray(vector<int>& A, vector<int>& B) {
+        int n= A.size();
+        unordered_set<int> seen;
+        vector<int> c(n, 0);
+        int commCount = 0;
+
+        for(int i=0; i<n;i++) {
+            if(seen.count(A[i])){
+                commCount++;
+            }
+            seen.insert(A[i]);
+            if(seen.count(B[i])){
+                commCount++;
+            }
+            seen.insert(B[i]);
+
+            c[i]=commCount;
+        }
+        return c;
+    }
+};
