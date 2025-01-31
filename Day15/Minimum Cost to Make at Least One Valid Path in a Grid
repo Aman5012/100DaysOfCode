@@ -1,0 +1,61 @@
+1368. Minimum Cost to Make at Least One Valid Path in a Grid
+
+//QUESTION LNK: https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/description/?envType=daily-question&envId=2025-01-18
+
+TOPIC: 
+Array
+Breadth-First Search
+Graph
+Heap (Priority Queue)
+Matrix
+Shortest Path
+
+Time Complexity: O(m×n) [row , col]
+
+Space Complexity: O(m×n)
+
+CODE:
+
+class Solution {
+public:
+    int minCost(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        // Directions: Right, Left, Down, Up
+        vector<pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        // Cost grid to track the minimum cost to reach each cell
+        vector<vector<int>> cost(m, vector<int>(n, INT_MAX));
+        deque<pair<int, int>> dq; // Deque for 0-cost and 1-cost cells
+
+        // Start from (0, 0) with cost 0
+        dq.push_front({0, 0});
+        cost[0][0] = 0;
+
+        while (!dq.empty()) {
+            auto [x, y] = dq.front();
+            dq.pop_front();
+
+            for (int d = 0; d < 4; ++d) {
+                int nx = x + directions[d].first;
+                int ny = y + directions[d].second;
+
+                // Check bounds
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int newCost = cost[x][y] + (grid[x][y] == d + 1 ? 0 : 1);
+                    if (newCost < cost[nx][ny]) {
+                        cost[nx][ny] = newCost;
+                        if (grid[x][y] == d + 1) {
+                            dq.push_front({nx, ny}); // No cost
+                        } else {
+                            dq.push_back({nx, ny}); // Add cost
+                        }
+                    }
+                }
+            }
+        }
+
+        return cost[m - 1][n - 1]; // Minimum cost to reach bottom-right
+    }
+};
