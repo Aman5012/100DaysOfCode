@@ -1,0 +1,51 @@
+2661. First Completely Painted Row or Column
+
+
+//QUESTION LNK: https://leetcode.com/problems/first-completely-painted-row-or-column/description/?envType=daily-question&envId=2025-01-20
+
+TOPIC:Array
+Hash Table
+Matrix
+
+
+CODE:
+
+Time Complexity: O(mXn)
+Space Complexity: O(mXn)
+
+class Solution {
+public:
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
+        int m = mat.size();    // Number of rows
+        int n = mat[0].size(); // Number of columns
+        
+        // Map to store the row and column position of each number in the matrix
+        unordered_map<int, pair<int, int>> positionMap;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                positionMap[mat[i][j]] = {i, j};
+            }
+        }
+
+        // Row and column counters to track painted cells
+        vector<int> rowCount(m, 0);
+        vector<int> colCount(n, 0);
+
+        // Iterate through arr and process the painting
+        for (int idx = 0; idx < arr.size(); ++idx) {
+            int num = arr[idx];
+            auto [row, col] = positionMap[num];
+
+            // Increment row and column count
+            rowCount[row]++;
+            colCount[col]++;
+
+            // Check if a row or column is fully painted
+            if (rowCount[row] == n || colCount[col] == m) {
+                return idx; // Return the index where painting completes
+            }
+        }
+
+        return -1;
+    }
+};
