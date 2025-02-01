@@ -1,0 +1,51 @@
+2017. Grid Game
+
+//QUESTION LNK: https://leetcode.com/problems/grid-game/description/?envType=daily-question&envId=2025-01-21 
+
+TOPIC: Array
+Matrix
+Prefix Sum
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        int n= grid[0].size();
+        vector<long long> topSum(n,0);
+        vector<long long> bottomSum(n,0);
+        topSum[0] = grid[0][0];
+        bottomSum[0]= grid[1][0];
+
+        for(int i=1; i<n; i++){
+            topSum[i]= topSum[i-1] + grid[0][i];
+            bottomSum[i] = bottomSum[i-1] + grid[1][i];
+
+        }
+
+        long long result= LLONG_MAX;
+
+        for(int i=0; i<n; i++){
+            long long topRemaining = topSum[n-1] - topSum[i];
+
+            long long bottomCollected;
+            if(i>0){
+                bottomCollected = bottomSum[i-1];
+            }
+            else{
+                bottomCollected = 0;
+            }
+
+              // Max points second robot can collect
+            long long secondRobotScore = max(topRemaining, bottomCollected);
+
+            // Minimize the second robot's score
+            result = min(result, secondRobotScore);
+        }
+        return result;
+    }
+};
