@@ -1,0 +1,42 @@
+Fractional Knapsack
+
+//QUESTION LNK: https://www.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
+
+TOPIC: greedy
+
+
+CODE: 
+
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+class Solution {
+  public:
+    // Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        int c= capacity;
+        int n= wt.size();
+        vector<pair<double, int>> ratioAndIndex;
+
+        // Step 1: Compute value-to-weight ratio for each item
+        for (int i = 0; i < n; i++) {
+            ratioAndIndex.push_back({(double)val[i] / wt[i], i});
+        }
+        // sort the value on the basis of the ratio.
+        sort(ratioAndIndex.rbegin(), ratioAndIndex.rend());
+        
+        double maxVal=0;
+        int remainingCapacity = capacity;
+        for(const auto& item: ratioAndIndex){
+            int index = item.second;
+            if(wt[index]<= remainingCapacity){
+                maxVal += val[index]; 
+                remainingCapacity -= wt[index]; 
+            }
+            else{
+                maxVal += item.first* remainingCapacity;
+                break;
+            }
+        }
+        return maxVal;
+    }
+};
