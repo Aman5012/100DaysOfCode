@@ -7,8 +7,8 @@ TOPIC:
 
 CODE:
 
-Time Complexity: 
-Space Complexity: 
+Time Complexity: O(mxn)
+Space Complexity: O(m+n)
 
 class Solution {
 public:
