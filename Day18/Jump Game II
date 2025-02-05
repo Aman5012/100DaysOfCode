@@ -1,0 +1,42 @@
+45. Jump Game II
+
+//QUESTION LNK: https://leetcode.com/problems/jump-game-ii/description/
+
+TOPIC:
+Array
+Dynamic Programming
+Greedy
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return 0; // If there's only one element, no jump is required
+        
+        int l = 0, r = 0; // Start and end of the current range
+        int jumps = 0;
+
+        while (r < n - 1) {
+            int farthest = 0;
+
+            // Find the farthest we can go within the current range
+            for (int idx = l; idx <= r; ++idx) {
+                farthest = max(farthest, idx + nums[idx]);
+            }
+
+            jumps++;           // Increment the jump counter
+            l = r + 1;         // Move the left pointer to the next range
+            r = farthest;      // Update the right pointer to the farthest point we can reach
+
+            // If the farthest point is already beyond or at the last index, break early
+            if (farthest >= n - 1) break;
+        }
+
+        return jumps;
+    }
+};
