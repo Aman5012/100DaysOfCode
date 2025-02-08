@@ -1,0 +1,53 @@
+Job Sequencing Problem
+
+
+//QUESTION LNK: https://www.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1
+
+TOPIC: Dynamic ProgrammingGreedyAlgorithms
+
+
+CODE: 
+
+Time Complexity: O(n.n)
+Space Complexity: O(n)
+
+vector<int> JobSequencing(vector<int> &id, vector<int> &deadline, vector<int> &profit) {
+                int n = id.size();
+
+        // Step 1: Combine job details into a vector of tuples (profit, deadline, id)
+        vector<tuple<int, int, int>> jobs;
+        for (int i = 0; i < n; i++) {
+            jobs.emplace_back(profit[i], deadline[i], id[i]);
+        }
+
+        // Step 2: Sort jobs by profit in descending order
+        sort(jobs.rbegin(), jobs.rend());
+
+        // Step 3: Find the maximum deadline to determine the number of time slots
+        int maxDeadline = *max_element(deadline.begin(), deadline.end());
+
+        // Step 4: Initialize time slots to track assigned jobs
+        vector<int> timeSlot(maxDeadline + 1, -1); // -1 indicates the slot is free
+        int totalProfit = 0;
+        int jobsScheduled = 0;
+
+        // Step 5: Assign jobs to the latest available slot before their deadline
+        for (const auto &job : jobs) {
+            int jobProfit = get<0>(job);
+            int jobDeadline = get<1>(job);
+            int jobId = get<2>(job);
+
+            // Find a free slot for this job, starting from its deadline
+            for (int t = jobDeadline; t > 0; t--) {
+                if (timeSlot[t] == -1) {
+                    timeSlot[t] = jobId; // Assign job to this slot
+                    totalProfit += jobProfit;
+                    jobsScheduled++;
+                    break;
+                }
+            }
+        }
+
+        // Return the number of jobs scheduled and the total profit
+        return {jobsScheduled, totalProfit};
+    }
