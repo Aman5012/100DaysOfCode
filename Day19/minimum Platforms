@@ -1,0 +1,36 @@
+minimum Platforms
+
+
+//QUESTION LNK: https://www.geeksforgeeks.org/problems/minimum-platforms-1587115620/1
+
+TOPIC: Arrays, Greedy, Sorting, Binary SearchData StructuresAlgorithms
+
+
+CODE:
+
+Time Complexity: O(n log n)
+Space Complexity: O(1)
+
+int findPlatform(vector<int>& arr, vector<int>& dep) {
+        
+        int n= arr.size();
+        // sort the timing
+        sort(arr.begin(), arr.end());
+        sort(dep.begin(), dep.end());
+        int i=0;
+        int j=0;
+        int p=0;
+        int maxP=0;
+        while(i<n && j<n){
+            // compare the timing
+            if(arr[i]<= dep[j]){
+                p++;
+                i++;
+            }else{
+                p--;
+                j++;
+            }
+            maxP= max(maxP, p);
+        }
+        return maxP;
+    }
