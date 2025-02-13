@@ -1,0 +1,45 @@
+Page Faults in LRU
+
+//QUESTION LNK: https://www.geeksforgeeks.org/problems/page-faults-in-lru5603/1
+
+TOPIC: GreedyAlgorithms
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+
+class Solution{
+public:
+    int pageFaults(int N, int C, int pages[]){
+        unordered_map<int, list<int>::iterator> pageMap;  // Page to position in LRU list
+    list<int> lruList;  // List to maintain order (front = LRU, back = MRU)
+    int pageFaults = 0;
+
+    for (int i=0; i<N; i++) {
+        int page=pages[i];
+        if (pageMap.find(page) == pageMap.end()) {
+            // Page not in memory → Page Fault
+            pageFaults++;
+
+            // If memory is full, remove LRU page
+            if (lruList.size() == C) {
+                int lruPage = lruList.front();
+                lruList.pop_front();  // Remove from list
+                pageMap.erase(lruPage);  // Remove from map
+            }
+        } else {
+            // Page is in memory → Move to Most Recently Used (MRU)
+            lruList.erase(pageMap[page]);
+        }
+
+        // Insert page at the end (MRU position)
+        lruList.push_back(page);
+        pageMap[page] = --lruList.end();
+    }
+
+    return pageFaults;
+    }
+};
