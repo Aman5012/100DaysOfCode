@@ -1,0 +1,76 @@
+1352. Product of the Last K Numbers
+
+//QUESTION LNK: https://leetcode.com/problems/product-of-the-last-k-numbers/?envType=daily-question&envId=2025-02-14
+
+TOPIC: Array
+Math
+Design
+Data Stream
+Prefix Sum
+
+
+CODE:
+
+Time Complexity: 
+Space Complexity: 
+
+class ProductOfNumbers {
+public:
+
+        // TC: O(1)
+        // SC:(1)
+    vector<int> prefixProd;
+    
+    ProductOfNumbers() {
+        prefixProd.push_back(1);  // Base case: prefix product of empty list
+    }
+    
+    void add(int num) {
+        if (num == 0) {
+            // Reset if a zero is added
+            prefixProd.clear();
+            prefixProd.push_back(1);
+        } else {
+            // Multiply with last product and store
+            prefixProd.push_back(prefixProd.back() * num);
+        }
+    }
+    
+    int getProduct(int k) {
+        int n = prefixProd.size();
+        if (k >= n) return 0; // If k exceeds available numbers, return 0
+        return prefixProd[n-1] / prefixProd[n-1-k];
+    }
+};
+
+
+
+// class ProductOfNumbers {
+// public:
+
+        // TC: O(n)
+        // SC:(1)
+
+//     vector<int> arr;
+//     ProductOfNumbers() {}
+    
+//     void add(int num) {
+//         arr.push_back(num);
+//     }
+    
+//     int getProduct(int k) {
+//         int n= arr.size();
+//         int prod=1;
+//         for(int i=n-k; i<n; i++){
+//             prod=prod* arr[i];
+//         }
+//        return prod; 
+//     }
+// };
+
+/**
+ * Your ProductOfNumbers object will be instantiated and called as such:
+ * ProductOfNumbers* obj = new ProductOfNumbers();
+ * obj->add(num);
+ * int param_2 = obj->getProduct(k);
+ */
