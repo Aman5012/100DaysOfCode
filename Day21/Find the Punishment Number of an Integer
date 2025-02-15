@@ -1,0 +1,44 @@
+2698. Find the Punishment Number of an Integer
+
+//QUESTION LNK: https://leetcode.com/problems/find-the-punishment-number-of-an-integer/description/?envType=daily-question&envId=2025-02-15
+
+TOPIC: Math
+Backtracking
+
+
+CODE:
+
+Time Complexity: O(n 2^d)
+Space Complexity: O(1)
+
+class Solution {
+public:
+    bool canPartition(const std::string& s, int target, int start, int currentSum) {
+    if (start == s.size()) {
+        return currentSum == target;
+    }
+    int num = 0;
+    for (int i = start; i < s.size(); ++i) {
+        num = num * 10 + (s[i] - '0');
+        if (currentSum + num > target) {
+            break;
+        }
+        if (canPartition(s, target, i + 1, currentSum + num)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+    int punishmentNumber(int n) {
+         int totalSum = 0;
+    for (int i = 1; i <= n; ++i) {
+        int square = i * i;
+        std::string squareStr = std::to_string(square);
+        if (canPartition(squareStr, i, 0, 0)) {
+            totalSum += square;
+        }
+    }
+    return totalSum;
+    }
+};
