@@ -1,0 +1,55 @@
+2342. Max Sum of a Pair With Equal Sum of Digits
+//QUESTION LNK: https://leetcode.com/problems/max-sum-of-a-pair-with-equal-sum-of-digits/?envType=daily-question&envId=2025-02-12
+
+TOPIC:Array
+Hash Table
+Sorting
+Heap (Priority Queue)
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    int maximumSum(vector<int>& nums) {
+        int n= nums.size();
+        unordered_map<int,pair<int, int>> mp;
+
+        for(int i=0; i<n; i++){
+            int num =nums[i];
+            int ds=0;
+            int temp =num;
+            while(temp>0){
+                ds+=temp%10;
+                
+                temp =temp/10;
+            }
+            // Update the map for this digit sum
+            if (mp.find(ds) == mp.end()) { // check that sd is exist or not
+                mp[ds] = {num, -1}; // initialize with num as largest and -1 as second largest
+            } else {
+                auto &p = mp[ds];
+                // udating the pair values on a paricular ds
+                if (num > p.first) {
+                    p.second = p.first;
+                    p.first = num;
+                } else if (num > p.second) {
+                    p.second = num;
+                }
+            }
+        }
+        
+        int maxVal = -1;
+        // Traverse the map and compute the maximum sum from valid groups.
+        for (const auto &entry : mp) {
+            auto p = entry.second;
+            if (p.second != -1) { // at least two numbers exist in this group
+                maxVal = max(maxVal, p.first + p.second);
+            }
+        }
+        
+        return maxVal;
+    }
+};
