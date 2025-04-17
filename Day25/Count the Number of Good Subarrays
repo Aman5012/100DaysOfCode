@@ -1,0 +1,37 @@
+2537. Count the Number of Good Subarrays
+//QUESTION LNK: https://leetcode.com/problems/count-the-number-of-good-subarrays/?envType=daily-question&envId=2025-04-16
+
+TOPIC: Array
+Hash Table
+Sliding Window
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    long long countGood(vector<int>& nums, int k) {
+        int n = nums.size();
+        long long ans = 0;
+        int left = 0;
+        long long pair = 0;
+        unordered_map<int, int> freq;
+
+        for (int right = 0; right < n; ++right) {
+            pair += freq[nums[right]];
+            freq[nums[right]]++;
+
+            while (pair >= k) {
+                ans += n - right;
+                pair -= freq[nums[left]] - 1;
+                freq[nums[left]]--;
+                left++;
+            }
+        }
+
+        return ans;
+    }
+};
