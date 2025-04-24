@@ -1,0 +1,28 @@
+Coin change
+//QUESTION LNK: https://leetcode.com/problems/coin-change/
+
+TOPIC: DP
+
+
+CODE:
+time Complexity: O(m*n)
+space complexity: O(m*n)
+
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<int> dp(amount + 1, amount + 1); // fill with "infinity"
+        dp[0] = 0; // 0 coins to make amount 0
+
+        for (int i = 1; i <= amount; ++i) {
+            for (int coin : coins) {
+                if (i - coin >= 0) {
+                    dp[i] = min(dp[i], 1 + dp[i - coin]);
+                }
+            }
+        }
+
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+};
