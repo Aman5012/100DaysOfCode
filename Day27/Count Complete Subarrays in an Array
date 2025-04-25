@@ -1,0 +1,49 @@
+2799. Count Complete Subarrays in an Array
+//QUESTION LNK: https://leetcode.com/problems/count-complete-subarrays-in-an-array/description/?envType=daily-question&envId=2025-04-24
+
+TOPIC: Array
+Hash Table
+Sliding Window
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(k)
+
+
+class Solution {
+public:
+    int countCompleteSubarrays(vector<int>& nums) {
+        int n = nums.size();
+        int total = 0;
+
+        // Get the number of unique elements in the array
+        unordered_set<int> uniqueSet(nums.begin(), nums.end());
+        int requiredUnique = uniqueSet.size();
+
+        unordered_map<int, int> freq;
+        int right = 0;
+
+        for (int left = 0; left < n; ++left) {
+            // Expand the right pointer until we have all unique elements
+            while (right < n && freq.size() < requiredUnique) {
+                freq[nums[right]]++;
+                right++;
+            }
+
+            // If current window contains all unique elements, count subarrays
+            if (freq.size() == requiredUnique) {
+                total += (n - right + 1); // all subarrays from [left, right) to [left, n)
+            }
+
+            // Before moving left ahead, remove nums[left] from the window
+            freq[nums[left]]--;
+            if (freq[nums[left]] == 0) {
+                freq.erase(nums[left]);
+            }
+        }
+
+        return total;
+    }
+};
