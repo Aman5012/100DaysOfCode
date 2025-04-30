@@ -1,0 +1,29 @@
+1295. Find Numbers with Even Number of Digits
+//QUESTION LNK: https://leetcode.com/problems/find-numbers-with-even-number-of-digits/?envType=daily-question&envId=2025-04-30
+
+TOPIC: Arra, math
+
+
+CODE:
+
+
+// TC: O(n)
+// SC: (1)
+
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int n= nums.size();
+        int ans=0;
+        for(int i=0;i<n; i++){
+            int count=0;
+            int x=nums[i];
+            while(x!=0){
+                x= x/10;
+                count++;
+            }
+            if(count%2==0) ans++;
+        }
+        return ans;
+    }
+};
