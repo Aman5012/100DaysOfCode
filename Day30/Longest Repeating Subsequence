@@ -1,0 +1,27 @@
+Longest Repeating Subsequence
+
+//QUESTION LNK: https://www.geeksforgeeks.org/problems/longest-repeating-subsequence2004/0
+TOPIC: Array
+Math
+
+TC: O(n*m)
+sc:  O(n*m)
+CODE:
+class Solution {
+  public:
+    int LongestRepeatingSubsequence(string &s) {
+        int n=s.size();
+        string t=s;
+        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+        for(int i=1; i<n+1; i++){
+            for(int j=1; j<n+1; j++){
+                if(s[i-1]==t[j-1] && i!=j) dp[i][j]= 1+ dp[i-1][j-1];
+                else{
+                    dp[i][j]=max(dp[i][j-1], dp[i-1][j]);
+                }
+            }
+        }
+        return dp[n][n];
+        
+    }
+};
