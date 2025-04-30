@@ -1,0 +1,58 @@
+392. Is Subsequence
+//QUESTION LNK: https://leetcode.com/problems/is-subsequence/description/
+
+TOPIC: tow pointer, Dp
+
+
+CODE:
+
+
+//////////////////////////   DP solution  //////////////
+
+// Time Complexity: O(m * n)
+// Space Complexity: O(m * n)
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        /// here we use lcs if the dp[m][n]== lenght of the s then return  true
+        int m=s.size();
+        int n=t.size();
+        vector<vector<int>> dp(m+1, vector<int> (n+1, 0));
+        for(int i=1; i<m+1;i++){
+            for(int j=1; j<n+1; j++){
+                if(s[i-1]==t[j-1]) dp[i][j]=1+ dp[i-1][j-1];
+                else{
+                    dp[i][j]= max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        if(m== dp[m][n]) return true;
+        else {
+            return false;
+
+        }
+    
+    }
+};
+//////////////////////////////  two pointer approach  ///////////////
+
+// TC: O(n)
+// SC: O(1)
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int sp = 0;
+        int tp = 0;
+
+        while (sp < s.length() && tp < t.length()) {
+            if (s[sp] == t[tp]) {
+                sp++;
+            }
+            tp++;
+        }
+
+        return sp == s.length();        
+    }
+};
