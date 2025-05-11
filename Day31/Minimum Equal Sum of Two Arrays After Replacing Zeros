@@ -1,0 +1,40 @@
+2918. Minimum Equal Sum of Two Arrays After Replacing Zeros
+
+//QUESTION LNK: https://leetcode.com/problems/minimum-equal-sum-of-two-arrays-after-replacing-zeros/?envType=daily-question&envId=2025-05-10
+
+TOPIC: array, greedy
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+class Solution {
+public:
+    long long minSum(vector<int>& nums1, vector<int>& nums2) {
+        long long sum1 = 0;
+        long long sum2 = 0;
+        long long z1=0;
+        long long z2=0;
+
+        for(int num: nums1){
+            sum1 += num;
+            if(num==0){
+                sum1++;
+                z1++;
+            }
+        }
+        for(int num: nums2){
+            sum2 +=num;
+            if(num==0){
+                sum2++;
+                z2++;
+            }
+        }
+        if(!z1 && sum2>sum1 || !z2 && sum1>sum2){
+            return -1;
+        }
+        return max(sum1, sum2);
+
+
+    }
+};
