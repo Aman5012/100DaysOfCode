@@ -1,0 +1,41 @@
+1550. Three Consecutive Odds
+
+//QUESTION LNK: https://leetcode.com/problems/three-consecutive-odds/?envType=daily-question&envId=2025-05-11
+
+TOPIC: arr
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+// class Solution {
+// public:
+//     bool threeConsecutiveOdds(vector<int>& arr) {
+//         int n=arr.size();
+//             int count=0;
+//         for(int i=0; i<n; i++){
+//             if(arr[i]%2!=0 ){
+//                 count++;
+//             }
+//             else count =0;
+//             if(count==3) return true;
+//         }
+//         return false;
+//     }
+// };
+
+
+class Solution {
+public:
+    bool threeConsecutiveOdds(vector<int>& arr) {
+        int n=arr.size();
+        for(int i=0; i<n-2; i++){
+            // porduct of odd number with odd number give a odd numner
+            int product = arr[i] * arr[i+1] * arr[i+2];
+            if(product %2 !=0 ) return true;
+        }
+        return false;
+    }
+};
