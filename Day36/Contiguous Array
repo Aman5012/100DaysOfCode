@@ -1,0 +1,35 @@
+525. Contiguous Array
+//QUESTION LNK: 
+
+TOPIC: Array
+Hash Table
+Prefix Sum
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int balance = 0;  // Tracks the difference between count of 1s and 0s
+        int maxLength = 0;
+        unordered_map<int, int> firstSeen;  // Stores first index where a balance occurred
+        firstSeen[0] = -1;  // Base case: balance 0 before the array starts
+
+        for (int i = 0; i < nums.size(); ++i) {
+            // Convert 0 to -1, keep 1 as is
+            balance += (nums[i] == 1) ? 1 : -1;
+
+            if (firstSeen.count(balance)) {
+                int length = i - firstSeen[balance];
+                maxLength = max(maxLength, length);
+            } else {
+                firstSeen[balance] = i;  // First time we see this balance
+            }
+        }
+
+        return maxLength;
+    }
+};
