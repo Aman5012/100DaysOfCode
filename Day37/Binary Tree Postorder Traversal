@@ -1,0 +1,30 @@
+145. Binary Tree Postorder Traversal
+
+//QUESTION LNK: https://leetcode.com/problems/binary-tree-postorder-traversal/description/
+
+TOPIC: Stack
+Tree
+Depth-First Search
+Binary Tree
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+              vector<int> result;
+        preorderHelper(root, result);
+        return result;
+    }
+    void preorderHelper(TreeNode* root, vector<int>& result) {
+        if (root == nullptr) {
+            return;
+        }
+         preorderHelper(root->left, result);
+        preorderHelper(root->right, result);
+        result.push_back(root->val);
+    }
+};
