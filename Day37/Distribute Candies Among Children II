@@ -1,0 +1,30 @@
+2929. Distribute Candies Among Children II
+
+//QUESTION LNK: https://leetcode.com/problems/distribute-candies-among-children-ii/description/?envType=daily-question&envId=2025-06-01
+
+TOPIC: Math
+Combinatorics
+Enumeration
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    long long distributeCandies(int n, int limit) {
+        long long ans = 0;
+        int minCh1=max(0, n- 2*limit);
+        int MaxCh1 = min(n, limit);
+
+        for(int i=minCh1; i<=MaxCh1; i++){
+            int N = n-i;
+            int minCh2 = max(0, N-limit);
+            int maxCh2 = min(N, limit);
+            ans += maxCh2 - minCh2 +1 ;
+        }
+        return ans;
+    }
+};
