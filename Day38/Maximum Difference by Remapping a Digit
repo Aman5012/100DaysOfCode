@@ -1,0 +1,35 @@
+2566. Maximum Difference by Remapping a Digit
+
+//QUESTION LNK: https://leetcode.com/problems/maximum-difference-by-remapping-a-digit/description/?envType=daily-question&envId=2025-06-14
+
+TOPIC: Math
+Greedy
+
+
+CODE:
+
+Time Complexity: O(1)
+Space Complexity: O(1)
+class Solution {
+public:
+    int minMaxDifference(int num) {
+        string s = to_string(num);
+        int i =0;
+        while(i<s.length()-1 && s[i]=='9'){
+            i++;
+        }
+
+        // for max val
+        string maxN = s;
+        for(char& c : maxN){
+            if(c==s[i]) c='9';
+        }
+        // for min val
+        string minN = s;
+        for(char& c : minN){
+            if(c==s[0]) c='0';
+        }
+        return stoi(maxN) - stoi(minN);
+
+    }
+};
