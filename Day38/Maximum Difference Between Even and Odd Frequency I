@@ -1,0 +1,33 @@
+3442. Maximum Difference Between Even and Odd Frequency I
+
+//QUESTION LNK: https://leetcode.com/problems/maximum-difference-between-even-and-odd-frequency-i/?envType=daily-question&envId=2025-06-10
+
+TOPIC:Hash Table
+String
+Counting
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+class Solution {
+public:
+    int maxDifference(string s) {
+        int n = s.size();
+        unordered_map<char, int> map;
+        for(char ch: s){
+            map[ch]++;
+        }
+        int maxOdd =1, minEven = s.size();
+        for(const auto& [_, value] :map){
+            if(value % 2 ==1){
+                maxOdd= max(maxOdd, value);
+            }else{
+                minEven = min(minEven, value);
+            }
+        }
+        return maxOdd - minEven;
+    }
+};
