@@ -1,0 +1,30 @@
+2294. Partition Array Such That Maximum Difference Is K
+
+//QUESTION LNK: https://leetcode.com/problems/partition-array-such-that-maximum-difference-is-k/description/?envType=daily-question&envId=2025-06-19
+
+TOPIC: Array
+Greedy
+Sorting
+
+
+CODE:
+
+Time Complexity: O(n log n)
+Space Complexity: O(1)
+class Solution {
+public:
+    int partitionArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        int i=0;
+        int rec = nums[0];
+        int ans=1;
+        for(int i=0; i<n; i++){
+            if(nums[i]- rec >k){
+                ans++;
+                rec = nums[i];
+            }
+        }
+        return ans;
+    }
+};
