@@ -1,0 +1,49 @@
+3443. Maximum Manhattan Distance After K Changes
+
+//QUESTION LNK: https://leetcode.com/problems/maximum-manhattan-distance-after-k-changes/?envType=daily-question&envId=2025-06-20
+
+TOPIC:Hash Table
+Math
+String
+Counting
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+class Solution {
+public:
+    int maxDistance(string s, int k) {
+        int n = s.length();
+        int ans=0;
+        int south=0, north=0, east=0, west=0;
+        for(char it: s){
+            switch(it){
+                case 'N':
+                    north++;
+                    break;
+                
+                case 'S':
+                    south++;
+                    break;
+                
+                case 'W':
+                    west++;
+                    break;
+                
+                case 'E':
+                    east++;
+                    break;
+                
+            }
+            int times1 = min({south, north, k});
+            int times2 = min({west, east, k - times1});
+            ans = max(ans, count(south, north, times1) + count(east,west, times2) );
+        }
+        return ans;
+    }
+    int count(int d1, int d2, int times){
+        return abs(d1-d2) + times*2;
+    }
+};
