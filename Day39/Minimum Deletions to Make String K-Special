@@ -1,0 +1,49 @@
+3085. Minimum Deletions to Make String K-Special
+
+//QUESTION LNK: https://leetcode.com/problems/minimum-deletions-to-make-string-k-special/description/?envType=daily-question&envId=2025-06-21
+
+TOPIC: Hash Table
+String
+Greedy
+Sorting
+Counting
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+class Solution {
+public:
+    int minimumDeletions(string word, int k) {
+        unordered_map<char, int> freq;
+        // 
+        for(char ch: word){
+            freq[ch]++;
+        }
+        // storing the frequency  
+        vector<int> counts;
+        for(auto &[_, f]:freq){
+            counts.push_back(f);
+        }
+        int minDeletion= INT_MAX;
+        /// geting the max element from the counts array
+        int high=*max_element(counts.begin(), counts.end());
+        for(int f=1; f<=high; ++f){
+            int deletion=0;
+            for(int cnt: counts){
+                // when cnt less  than f means lower than the range[f, f+k]
+                if(cnt<f){
+                    // remove the all char
+                    deletion +=cnt;
+                }else if(cnt> f+k){
+                    // make the frequency in range 
+                    deletion += cnt- (f+k);
+                }
+                // else no need to delete f is in range in [f, f+k]
+            }
+            minDeletion = min(deletion, minDeletion);
+        }
+        return minDeletion;
+    }
+};
