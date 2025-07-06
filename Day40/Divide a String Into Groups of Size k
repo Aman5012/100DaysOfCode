@@ -1,0 +1,29 @@
+2138. Divide a String Into Groups of Size k
+
+//QUESTION LNK: //QUESTION LNK: TOPIC: CODE: Time Complexity: Space Complexity:
+
+TOPIC: String
+Simulation
+
+
+CODE:
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    vector<string> divideString(string s, int k, char fill) {
+        vector<string> res;
+        int curr=0;
+        while(curr< s.length()){
+            res.push_back(s.substr(curr, k));
+            curr +=k;
+        }
+
+        // fill the last group
+        res.back() += string(k- res.back().length(), fill);
+        return res;
+
+    }
+};
