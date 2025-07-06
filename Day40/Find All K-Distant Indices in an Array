@@ -1,0 +1,27 @@
+2200. Find All K-Distant Indices in an Array
+
+//QUESTION LNK: https://leetcode.com/problems/find-all-k-distant-indices-in-an-array/description/?envType=daily-question&envId=2025-06-24
+
+TOPIC: Array
+Two Pointers
+
+CODE:
+Time complexity: O(n.n)
+space complexity: O(n)
+class Solution {
+public:
+    vector<int> findKDistantIndices(vector<int>& nums, int key, int k) {
+        vector<int> res;
+        int n = nums.size();
+        // traverse number pairs
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (nums[j] == key && abs(i - j) <= k) {
+                    res.push_back(i);
+                    break;  // early termination to prevent duplicate addition
+                }
+            }
+        }
+        return res;
+    }
+};
