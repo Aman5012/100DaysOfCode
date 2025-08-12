@@ -1,0 +1,31 @@
+455. Assign Cookies
+//QUESTION LNK: https://leetcode.com/problems/assign-cookies/description/
+
+TOPIC: Array
+Two Pointers
+Greedy
+Sorting
+
+
+CODE:
+// TC: O(n log n)
+// SC: O(1)
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        int n = g.size();
+        int m = s.size();
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+
+        int l=0; // for greed
+        int r=0; // for size
+        while(l<n && r<m){
+            if(g[l]<=s[r]){
+                l++;
+            }
+            r++;
+        } 
+        return l;
+    }
+};
