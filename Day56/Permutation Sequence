@@ -1,0 +1,75 @@
+60. Permutation Sequence
+//QUESTION LNK: https://leetcode.com/problems/permutation-sequence/
+
+TOPIC: backtracking
+
+
+CODE:
+////////////////////////////  recursion + backtracking   ///////////////////////////
+Time Complexity: O(n × n! × log(n!))
+Space Complexity: O(n × n!)
+
+class Solution {
+public:
+    vector<string> ans;
+    void permute(string & s,int l, int r){
+        if(l==r){
+            ans.push_back(s);
+            return;
+        }
+        for(int i=l; i<=r; i++){
+            swap(s[l], s[i]);
+            permute(s, l+1, r);
+            swap(s[l], s[i]);
+        }
+    }
+    string getPermutation(int n, int k) {
+
+             // build string  
+
+        // int num= 0;
+        // for(int i=1; i<=n; i++){
+        //     num = num*10+i;
+        // }
+        // string s =to_string(num); 
+
+        string s = "";
+        for (int i = 1; i <= n; i++) {
+            s += (i + '0');
+        }
+
+        permute(s, 0, s.size()-1);
+        sort(ans.begin(), ans.end());
+
+
+         return ans[k - 1];
+        
+    }
+};
+///////////////////////////  optimal approach   //////////////////////////
+TC:O(n²)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<int> nums;
+        for (int i = 1; i <= n; i++) nums.push_back(i);
+
+        vector<int> fact(n);
+        fact[0] = 1;
+        for (int i = 1; i < n; i++) fact[i] = fact[i-1] * i;
+
+        k--; // convert to 0-index
+        string res = "";
+
+        for (int i = n; i >= 1; i--) {
+            int index = k / fact[i-1];
+            res += to_string(nums[index]);
+            nums.erase(nums.begin() + index);
+            k %= fact[i-1];
+        }
+
+        return res;
+    }
+};
