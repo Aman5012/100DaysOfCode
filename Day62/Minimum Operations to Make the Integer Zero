@@ -1,0 +1,45 @@
+2749. Minimum Operations to Make the Integer Zero
+//QUESTION LINK: https://leetcode.com/problems/minimum-operations-to-make-the-integer-zero/?envType=daily-question&envId=2025-09-05
+
+TOPIC: Bit Manipulation
+Brainteaser
+Enumeration
+
+
+CODE:
+class Solution {
+public:
+    int makeTheIntegerZero(int num1, int num2) {
+
+        int t=0;
+        while(true){
+            long long val = (long long)num1 - (long long)num2*t;
+            if(val<0) return -1;
+            if(__builtin_popcountll(val) <=t && t <=val){
+                return t;
+                
+            }
+            t++;
+            
+        }
+        return -1;
+        
+    }
+};
+
+////////////////////////////  approach 2  ///////////////////////
+
+
+class Solution {
+public:
+    int makeTheIntegerZero(int num1, int num2) {
+
+        for(int t=0; t<=36; t++){
+            long long val = (long long)num1 - (long long)t * num2;
+            if(val<0) return -1;
+            if(__builtin_popcountll(val) <= t && t <= val) return t;  //Built-in function that returns number of set bits (1s) in binary representation of val
+        }
+        return -1;
+        
+    }
+};
