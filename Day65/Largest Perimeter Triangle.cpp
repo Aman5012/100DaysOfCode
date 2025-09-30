@@ -1,16 +1,16 @@
 976. Largest Perimeter Triangle
 //QUESTION LINK: https://leetcode.com/problems/largest-perimeter-triangle/?envType=daily-question&envId=2025-09-28
 
-TOPIC: Array
-Math
-Greedy
-Sorting
+// TOPIC: Array
+// Math
+// Greedy
+// Sorting
 
 
 CODE:
 /////////////////////////   Approach 1  ////////////////////////////
-TC: O(n)
-SC: O(1)
+// TC: O(n)
+// SC: O(1)
 
 class Solution {
 public:
