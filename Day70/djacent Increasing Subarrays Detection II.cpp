@@ -1,0 +1,29 @@
+3350. Adjacent Increasing Subarrays Detection II
+//QUESTION LINK: https://leetcode.com/problems/adjacent-increasing-subarrays-detection-ii/?envType=daily-question&envId=2025-10-15
+
+TOPIC: Array
+Binary Search
+
+
+CODE:
+// TC: O(N)
+// SC: O(1)
+
+class Solution {
+public:
+    int maxIncreasingSubarrays(vector<int>& nums) {
+        int n = nums.size();
+        int cnt = 1, precnt = 0, ans = 0;
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > nums[i - 1]) {
+                ++cnt;
+            } else {
+                precnt = cnt;
+                cnt = 1;
+            }
+            ans = max(ans, min(precnt, cnt));
+            ans = max(ans, cnt / 2);
+        }
+        return ans;
+    }
+};
